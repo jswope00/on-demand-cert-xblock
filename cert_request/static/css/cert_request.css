@@ -1,0 +1,9 @@
+/* CSS for CertRequestXBlock */
+
+.cert_request_block .count {
+    font-weight: bold;
+}
+
+.cert_request_block p {
+    cursor: pointer;
+}

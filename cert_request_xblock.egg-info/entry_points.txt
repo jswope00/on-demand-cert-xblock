@@ -1,0 +1,3 @@
+[xblock.v1]
+cert_request = cert_request:CertRequestXBlock
+
