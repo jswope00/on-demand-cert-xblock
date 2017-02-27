@@ -1,58 +1,30 @@
 """TO-DO: Write a description of what this XBlock is."""
 
 import pkg_resources
-import json
-from collections import defaultdict
 
 from xblock.core import XBlock
-from xblock.fields import Scope, String, Integer
-from xblock.exceptions import JsonHandlerError
+from xblock.fields import Scope, String
 from xblock.fragment import Fragment
 from mako.template import Template
-#from courseware.views import generate_user_cert
 from django.contrib.auth.models import User
 from certificates import api as certs_api
 from opaque_keys.edx.keys import CourseKey
-from courseware.courses import get_course_by_id
-from courseware.views import is_course_passed
 from courseware.model_data import FieldDataCache, ScoresClient
 from functools import partial
-#from courseware.grades import field_data_cache_for_grading
 from util.module_utils import yield_dynamic_descriptor_descendants
-from courseware.access import has_access
 from xmodule.graders import Score
 from xmodule import graders
-from courseware.module_render import get_module_for_descriptor
-from courseware.courses import (
-    get_courses,
-    get_course,
-    get_course_by_id,
-    get_permission_for_course_about,
-    get_studio_url,
-    get_course_overview_with_access,
-    get_course_with_access,
-    sort_by_announcement,
-    sort_by_start_date,
-    UserNotEnrolled
-)
-from courseware import grades
-from django.views.decorators.http import require_GET, require_POST, require_http_methods
-from certificates.queue import XQueueCertInterface
+from courseware.courses import get_course_with_access
 from certificates.models import GeneratedCertificate, CertificateStatuses
-from certificates.api import has_html_certificates_enabled
 from student.models import UserProfile, CourseEnrollment
 from lms.djangoapps.verify_student.models import SoftwareSecurePhotoVerification
-from capa.xqueue_interface import make_xheader, make_hashkey
+from capa.xqueue_interface import make_hashkey
 import random
 from uuid import uuid4
-from course_blocks.api import get_course_blocks
-#from block_structure.api import get_course_in_cache
 from submissions import api as sub_api
 from student.models import anonymous_id_for_user
-from courseware.models import StudentModule
 from django.conf import settings
 from django.core.cache import cache
-from util.db import outer_atomic
 
 def descriptor_affects_grading(block_types_affecting_grading, descriptor):
         """
