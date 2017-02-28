@@ -109,7 +109,6 @@ def get_score(user, problem_descriptor, module_creator, scores_client, submissio
     # when they tried the problem, not what it's worth now.
     score = scores_client.get(problem_descriptor.location)
     cached_max_score = max_scores_cache.get(problem_descriptor.location)
-    print "score===========",score
     if score and score.total is not None:
         # We have a valid score, just use it.
         correct = score.correct if score.correct is not None else 0.0
@@ -219,8 +218,6 @@ def get_grades(course,student):
                             					submissions_scores,
                             					max_scores_cache,
 							   )
-					print "total==============",total
-					print "correct================",correct
                     			if correct is None and total is None:
                         			continue
 
@@ -560,9 +557,6 @@ class CertRequestXBlock(XBlock):
         show_generate_cert_btn = certs_api.cert_generation_enabled(course_key)	
         grade_summary = get_grades(course,student)		
 	
-
-	print "grade_summary====================",grade_summary
-	
 	failed = None
 	if grade_summary["totaled_scores"]:
 		if grade_summary["percent"]   < course.grading_policy["GRADE_CUTOFFS"]["Pass"]:
@@ -577,8 +571,6 @@ class CertRequestXBlock(XBlock):
                 }
        	if grade_summary["percent"]  and grade_summary["percent"]   >= course.grading_policy["GRADE_CUTOFFS"]["Pass"]:
 		
-
-		print "in totaled score"
 		context.update({
                         'show_generate_cert_btn':True
                 })
@@ -600,7 +592,6 @@ class CertRequestXBlock(XBlock):
                     			'download_url': None
                 		})
 
-        print "outside totaled score"
 	return context
 
 
